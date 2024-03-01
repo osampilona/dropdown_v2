@@ -23,15 +23,24 @@ const App = () => {
   ];
 
   const subMenuList = [
-    <StatelyMenu aria-label="submenu" key="submenu" onAction={handleAction}>
-      {submenuItems.map((item) => (
-        <Item key={item.key}>{item.label}</Item>
-      ))}
-    </StatelyMenu>,
+    <li style={{ height: "42px", listStyle: "none" }}>
+      <StatelyMenu
+        UNSAFE_style={{
+          display: "contents",
+        }}
+        aria-label="submenu"
+        key="submenu"
+        onAction={handleAction}
+      >
+        {submenuItems.map((item) => (
+          <Item key={item.key}>{item.label}</Item>
+        ))}
+      </StatelyMenu>
+    </li>,
   ];
 
   return (
-    <>
+    <div style={{ position: "relative" }}>
       <Menu
         renderTrigger={(props) => <button {...props}>Actions</button>}
         onAction={handleAction}
@@ -41,8 +50,30 @@ const App = () => {
         <Item key="move">Move to</Item>
         <Item key="delete">Delete application</Item>
       </Menu>
-      {showSubmenu && subMenuList}
-    </>
+      {showSubmenu && (
+        <div
+          style={{
+            position: "absolute",
+            left: "210px",
+            top: "113px",
+            height: "max-content",
+            width: "100px",
+            backgroundColor: "hsl(0, 0%, 100%)",
+            boxShadow: "0 5px 10px 0 hsla(202, 12%, 56%, 0.2)",
+            animation: "fade-in 0.1s ease-in-out",
+            borderColor: "hsl(202, 12%, 87%)",
+            borderRadius: "6px",
+            fontFamily: '"Nunito", sans-serif',
+            fontWeight: 600,
+            fontSize: "16px",
+            padding: "0 12px",
+            display: "flex",
+          }}
+        >
+          {subMenuList}
+        </div>
+      )}
+    </div>
   );
 };
 
