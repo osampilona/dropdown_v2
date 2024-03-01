@@ -173,7 +173,7 @@ function _Menu<T extends object>(
           <MenuPopup<T>
             {...mergeProps(props, menuProps)}
             autoFocus={state.focusStrategy || true}
-            onClose={state.close}
+            onClose={() => !state.close} // Updated to pass a function
           />
         </FocusScope>
       </Popover>
