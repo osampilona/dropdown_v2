@@ -16,11 +16,17 @@ const App = () => {
     }
   };
 
+  const submenuItems = [
+    { key: "move-to-shared", label: "Shared" },
+    { key: "move-to-desktop", label: "Desktop" },
+    { key: "move-to-favorite", label: "Favorite" },
+  ];
+
   const subMenuList = [
     <StatelyMenu aria-label="submenu" key="submenu" onAction={handleAction}>
-      <Item key="move-to-shared">Shared</Item>
-      <Item key="move-to-desktop">Desktop</Item>
-      <Item key="move-to-favorite">Favorite</Item>
+      {submenuItems.map((item) => (
+        <Item key={item.key}>{item.label}</Item>
+      ))}
     </StatelyMenu>,
   ];
 
@@ -32,11 +38,7 @@ const App = () => {
       >
         <Item key="copy">Copy application</Item>
         <Item key="rename">Rename application</Item>
-        <Item key="move" title="Move to">
-          <Item key="move-to-shared">Shared</Item>
-          <Item key="move-to-desktop">Desktop</Item>
-          <Item key="move-to-favorite">Favorite</Item>
-        </Item>
+        <Item key="move">Move to</Item>
         <Item key="delete">Delete application</Item>
       </Menu>
       {showSubmenu && subMenuList}
