@@ -116,6 +116,12 @@
   height: var(--sapphire-menu-size-height-separator);
 }
 
+.sapphire-menu-item {
+  > div {
+    border: none;
+  }
+}
+
 .sapphire-menu-item:not(.is-disabled).is-focus,
 .sapphire-menu-item:not(.is-disabled):not(.js-focus):focus-visible {
   background-color: var(--sapphire-menu-color-background-focus);
