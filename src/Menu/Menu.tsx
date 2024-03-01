@@ -3,7 +3,7 @@ import React, {
   Key,
   ReactElement,
   useLayoutEffect,
-  useRef
+  useRef,
 } from "react";
 import { AriaMenuProps, MenuTriggerProps } from "@react-types/menu";
 import { useMenuTriggerState } from "@react-stately/menu";
@@ -19,7 +19,7 @@ import {
   FocusableRef,
   FocusStrategy,
   DOMRefValue,
-  Node
+  Node,
 } from "@react-types/shared";
 import { TreeState } from "@react-stately/tree";
 import styles from "./Menu.module.css";
@@ -47,7 +47,7 @@ export function MenuItem<T>({
   state,
   onAction,
   disabledKeys,
-  onClose
+  onClose,
 }: MenuItemProps<T>): JSX.Element {
   const ref = React.useRef<HTMLLIElement>(null);
   const isDisabled = disabledKeys && [...disabledKeys].includes(item.key);
@@ -57,7 +57,7 @@ export function MenuItem<T>({
       key: item.key,
       isDisabled,
       onAction,
-      onClose
+      onClose,
     },
     state,
     ref
@@ -77,7 +77,7 @@ export function MenuItem<T>({
         {
           [styles["is-disabled"]]: isDisabled,
           [styles["is-focus"]]: isFocusVisible,
-          [styles["is-hover"]]: isHovered
+          [styles["is-hover"]]: isHovered,
         }
       )}
     >
@@ -141,7 +141,7 @@ function _Menu<T extends object>(
     placement: "bottom start",
     offset: 6,
     onClose: state.close,
-    shouldFlip
+    shouldFlip,
   });
   // Fixes an issue where menu with controlled open state opens in wrong place the first time
   useLayoutEffect(() => {

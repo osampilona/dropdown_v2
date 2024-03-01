@@ -1,7 +1,8 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
-import { Menu, Item } from "./Menu";
 import React from "react";
+import { Item } from "@react-stately/collections";
+import { Menu } from "./Menu";
 
 const rootElement = document.getElementById("root");
 const root = createRoot(rootElement!);
