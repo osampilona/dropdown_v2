@@ -1,17 +1,19 @@
+import React from "react";
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
-import React from "react";
 import { Item } from "@react-stately/collections";
 import { Menu } from "./Menu";
 
-const rootElement = document.getElementById("root");
-const root = createRoot(rootElement!);
+const App = () => {
+  const handleAction = (actionKey: any) => {
+    // Handle menu item actions here
+    alert(`Action triggered: ${actionKey}`);
+  };
 
-root.render(
-  <StrictMode>
+  return (
     <Menu
       renderTrigger={(props) => <button {...props}>Actions</button>}
-      onAction={alert}
+      onAction={handleAction}
     >
       <Item key="copy">Copy application</Item>
       <Item key="rename">Rename application</Item>
@@ -22,5 +24,14 @@ root.render(
       </Item>
       <Item key="delete">Delete application</Item>
     </Menu>
+  );
+};
+
+const rootElement = document.getElementById("root");
+const root = createRoot(rootElement!);
+
+root.render(
+  <StrictMode>
+    <App />
   </StrictMode>
 );
