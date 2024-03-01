@@ -2,8 +2,9 @@ import React, {
   ButtonHTMLAttributes,
   Key,
   ReactElement,
+  RefObject,
   useLayoutEffect,
-  useRef
+  useRef,
 } from "react";
 import { AriaMenuProps, MenuTriggerProps } from "@react-types/menu";
 import { useMenuTriggerState } from "@react-stately/menu";
@@ -19,7 +20,7 @@ import {
   FocusableRef,
   FocusStrategy,
   DOMRefValue,
-  Node
+  Node,
 } from "@react-types/shared";
 import { TreeState } from "@react-stately/tree";
 import styles from "./Menu.module.css";
@@ -29,9 +30,10 @@ import { useHover } from "@react-aria/interactions";
 export type SapphireMenuProps<T extends object> = AriaMenuProps<T> &
   MenuTriggerProps & {
     renderTrigger: (
-      props: ButtonHTMLAttributes<Element>,
+      props: ButtonHTMLAttributes<Element> & { ref?: RefObject<any> },
       isOpen: boolean
     ) => React.ReactNode;
+    shouldFlip?: boolean;
   };
 
 interface MenuItemProps<T> {
@@ -47,7 +49,7 @@ export function MenuItem<T>({
   state,
   onAction,
   disabledKeys,
-  onClose
+  onClose,
 }: MenuItemProps<T>): JSX.Element {
   const ref = React.useRef<HTMLLIElement>(null);
   const isDisabled = disabledKeys && [...disabledKeys].includes(item.key);
@@ -57,7 +59,7 @@ export function MenuItem<T>({
       key: item.key,
       isDisabled,
       onAction,
-      onClose
+      onClose,
     },
     state,
     ref
@@ -77,7 +79,7 @@ export function MenuItem<T>({
         {
           [styles["is-disabled"]]: isDisabled,
           [styles["is-focus"]]: isFocusVisible,
-          [styles["is-hover"]]: isHovered
+          [styles["is-hover"]]: isHovered,
         }
       )}
     >
@@ -94,7 +96,11 @@ const MenuPopup = <T extends object>(
 ) => {
   const state = useTreeState({ ...props, selectionMode: "none" });
   const menuRef = useRef<HTMLUListElement>(null);
-  const { menuProps } = useMenu(props, state, menuRef);
+  const { menuProps } = useMenu(
+    props as unknown as AriaMenuProps<object>,
+    state,
+    menuRef
+  ); // Cast props to AriaMenuProps<object>
 
   return (
     <ul {...menuProps} ref={menuRef} className={styles["sapphire-menu"]}>
@@ -108,7 +114,7 @@ const MenuPopup = <T extends object>(
             item={item}
             state={state}
             onClose={props.onClose}
-            onAction={props.onAction}
+            onAction={props.onAction as (key: React.Key) => void} // Fix: Cast onAction prop to accept React.Key type
             disabledKeys={props.disabledKeys}
           />
         );
@@ -141,7 +147,7 @@ function _Menu<T extends object>(
     placement: "bottom start",
     offset: 6,
     onClose: state.close,
-    shouldFlip
+    shouldFlip,
   });
   // Fixes an issue where menu with controlled open state opens in wrong place the first time
   useLayoutEffect(() => {
@@ -158,13 +164,13 @@ function _Menu<T extends object>(
       <Popover
         isOpen={state.isOpen}
         ref={popoverRef}
-        style={overlayProps.style}
+        style={overlayProps.style || {}}
         className={clsx(styles["sapphire-menu-container"])}
         shouldCloseOnBlur
         onClose={state.close}
       >
         <FocusScope>
-          <MenuPopup
+          <MenuPopup<T>
             {...mergeProps(props, menuProps)}
             autoFocus={state.focusStrategy || true}
             onClose={state.close}
