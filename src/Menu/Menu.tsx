@@ -108,7 +108,7 @@ const MenuPopup = <T extends object>(
             item={item}
             state={state}
             onClose={props.onClose}
-            onAction={props.onAction}
+            onAction={props.onAction as (key: React.Key) => void} // Fix: Cast onAction prop to accept React.Key type
             disabledKeys={props.disabledKeys}
           />
         );
