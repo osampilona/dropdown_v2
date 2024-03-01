@@ -32,6 +32,7 @@ export type SapphireMenuProps<T extends object> = AriaMenuProps<T> &
       props: ButtonHTMLAttributes<Element>,
       isOpen: boolean
     ) => React.ReactNode;
+    shouldFlip?: boolean;
   };
 
 interface MenuItemProps<T> {
