@@ -158,7 +158,7 @@ function _Menu<T extends object>(
       <Popover
         isOpen={state.isOpen}
         ref={popoverRef}
-        style={overlayProps.style}
+        style={overlayProps.style || {}}
         className={clsx(styles["sapphire-menu-container"])}
         shouldCloseOnBlur
         onClose={state.close}
