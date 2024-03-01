@@ -96,7 +96,11 @@ const MenuPopup = <T extends object>(
 ) => {
   const state = useTreeState({ ...props, selectionMode: "none" });
   const menuRef = useRef<HTMLUListElement>(null);
-  const { menuProps } = useMenu(props, state, menuRef);
+  const { menuProps } = useMenu(
+    props as unknown as AriaMenuProps<object>,
+    state,
+    menuRef
+  ); // Cast props to AriaMenuProps<object>
 
   return (
     <ul {...menuProps} ref={menuRef} className={styles["sapphire-menu"]}>
@@ -166,7 +170,7 @@ function _Menu<T extends object>(
         onClose={state.close}
       >
         <FocusScope>
-          <MenuPopup
+          <MenuPopup<T>
             {...mergeProps(props, menuProps)}
             autoFocus={state.focusStrategy || true}
             onClose={state.close}
