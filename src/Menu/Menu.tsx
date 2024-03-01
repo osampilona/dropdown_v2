@@ -2,6 +2,7 @@ import React, {
   ButtonHTMLAttributes,
   Key,
   ReactElement,
+  RefObject,
   useLayoutEffect,
   useRef,
 } from "react";
@@ -29,7 +30,7 @@ import { useHover } from "@react-aria/interactions";
 export type SapphireMenuProps<T extends object> = AriaMenuProps<T> &
   MenuTriggerProps & {
     renderTrigger: (
-      props: ButtonHTMLAttributes<Element>,
+      props: ButtonHTMLAttributes<Element> & { ref?: RefObject<any> },
       isOpen: boolean
     ) => React.ReactNode;
     shouldFlip?: boolean;
