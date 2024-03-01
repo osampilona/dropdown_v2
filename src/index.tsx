@@ -22,22 +22,29 @@ const App = () => {
     { key: "move-to-favorite", label: "Favorite" },
   ];
 
-  const subMenuList = [
-    <li style={{ height: "42px", listStyle: "none" }}>
+  const subMenuList = submenuItems.map((item) => (
+    <li
+      style={{
+        height: "42px",
+        listStyle: "none",
+        textAlign: "left",
+        display: "flex",
+        alignItems: "center",
+      }}
+    >
       <StatelyMenu
         UNSAFE_style={{
           display: "contents",
         }}
         aria-label="submenu"
-        key="submenu"
+        key={item.key}
         onAction={handleAction}
+        onClose={() => setShowSubmenu(false)}
       >
-        {submenuItems.map((item) => (
-          <Item key={item.key}>{item.label}</Item>
-        ))}
+        <Item key={item.key}>{item.label}</Item>
       </StatelyMenu>
-    </li>,
-  ];
+    </li>
+  ));
 
   return (
     <div style={{ position: "relative" }}>
@@ -68,6 +75,7 @@ const App = () => {
             fontSize: "16px",
             padding: "0 12px",
             display: "flex",
+            flexDirection: "column",
           }}
         >
           {subMenuList}
