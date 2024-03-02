@@ -18,8 +18,9 @@ const App = () => {
   const handleAction = (actionKey: any) => {
     if (actionKey === "move") {
       setShowSubmenu((prevShowSubmenu) => !prevShowSubmenu);
-    } else {
       console.log("Main menu item action:", actionKey);
+    } else {
+      console.log("Main menu item action not move is:", actionKey);
     }
   };
 
