@@ -100,7 +100,7 @@ const MenuPopup = <T extends object>(
     props as unknown as AriaMenuProps<object>,
     state,
     menuRef
-  ); // Cast props to AriaMenuProps<object>
+  );
 
   return (
     <ul {...menuProps} ref={menuRef} className={styles["sapphire-menu"]}>
@@ -114,7 +114,12 @@ const MenuPopup = <T extends object>(
             item={item}
             state={state}
             onClose={props.onClose}
-            onAction={props.onAction as (key: React.Key) => void} // Fix: Cast onAction prop to accept React.Key type
+            onAction={(key: React.Key) => {
+              if (props.onAction) {
+                props.onAction(key.toString());
+              }
+              props.onClose();
+            }}
             disabledKeys={props.disabledKeys}
           />
         );
@@ -124,7 +129,9 @@ const MenuPopup = <T extends object>(
 };
 
 function _Menu<T extends object>(
-  props: SapphireMenuProps<T>,
+  props: SapphireMenuProps<T> & {
+    setShowSubmenu: React.Dispatch<React.SetStateAction<boolean>>;
+  },
   ref: FocusableRef<HTMLButtonElement>
 ) {
   const { renderTrigger, shouldFlip = true } = props;
@@ -167,13 +174,17 @@ function _Menu<T extends object>(
         style={overlayProps.style || {}}
         className={clsx(styles["sapphire-menu-container"])}
         shouldCloseOnBlur
-        onClose={state.close}
+        onClose={() => {
+          state.close();
+          state.setOpen(false);
+          props.setShowSubmenu(false);
+        }}
       >
         <FocusScope>
           <MenuPopup<T>
             {...mergeProps(props, menuProps)}
             autoFocus={state.focusStrategy || true}
-            onClose={() => !state.close} // Updated to pass a function
+            onClose={() => {}}
           />
         </FocusScope>
       </Popover>
@@ -182,6 +193,8 @@ function _Menu<T extends object>(
 }
 
 export const Menu = React.forwardRef(_Menu) as <T extends object>(
-  props: SapphireMenuProps<T>,
+  props: SapphireMenuProps<T> & {
+    setShowSubmenu: React.Dispatch<React.SetStateAction<boolean>>;
+  },
   ref: FocusableRef<HTMLButtonElement>
 ) => ReactElement;

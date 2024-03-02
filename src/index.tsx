@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { Key, useState } from "react";
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { Menu as StatelyMenu, Item } from "@react-spectrum/menu";
@@ -16,11 +16,10 @@ const App = () => {
   const { isFocusVisible } = useFocusRing();
 
   const handleAction = (actionKey: any) => {
-    // Handle menu item actions here
     if (actionKey === "move") {
-      console.log("Move to is clicked");
-      setShowSubmenu(true);
-      return subMenuList;
+      setShowSubmenu((prevShowSubmenu) => !prevShowSubmenu);
+    } else {
+      console.log("Main menu item action:", actionKey);
     }
   };
 
@@ -33,6 +32,7 @@ const App = () => {
   const { hoverProps, isHovered } = useHover({ isDisabled });
   const subMenuList = submenuItems.map((item) => (
     <li
+      key={item.key}
       className={clsx(
         styles["sapphire-menu-item"],
         styles["js-focus"],
@@ -47,10 +47,13 @@ const App = () => {
       <StatelyMenu
         aria-label="submenu"
         key={item.key}
-        onAction={handleAction}
+        onAction={(key: Key) => {
+          handleAction(key);
+          setShowSubmenu(false);
+        }}
         onClose={() => setShowSubmenu(false)}
       >
-        <Item key={item.key}>
+        <Item key={item.key} textValue={item.label}>
           <p className={styles["sapphire-menu-item-overflow"]}>{item.label}</p>
         </Item>
       </StatelyMenu>
@@ -62,6 +65,7 @@ const App = () => {
       <Menu
         renderTrigger={(props) => <button {...props}>Actions</button>}
         onAction={handleAction}
+        setShowSubmenu={setShowSubmenu}
       >
         <Item key="copy">Copy application</Item>
         <Item key="rename">Rename application</Item>
