@@ -9,6 +9,7 @@ import styles from "./Menu/Menu.module.css";
 import { useHover } from "@react-aria/interactions";
 import { mergeProps } from "@react-aria/utils";
 import { useFocusRing } from "@react-aria/focus";
+import SubMenuList from "./SubMenuList/SubMenuList";
 
 const App = () => {
   const [showSubmenu, setShowSubmenu] = useState(false);
@@ -22,6 +23,7 @@ const App = () => {
       setShowSubmenu(true);
       return subMenuList;
     }
+    setShowSubmenu(false); // Close the submenu when the action is not "move"
   };
 
   const submenuItems = [
@@ -78,7 +80,12 @@ const App = () => {
             top: "112px",
           }}
         >
-          {subMenuList}
+          <SubMenuList
+            submenuItems={submenuItems}
+            isDisabled={isDisabled}
+            isFocusVisible={isFocusVisible}
+            onClose={() => setShowSubmenu(false)}
+          />
         </div>
       )}
     </div>
