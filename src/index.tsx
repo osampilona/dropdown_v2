@@ -30,35 +30,26 @@ const App = () => {
   ];
 
   const { hoverProps, isHovered } = useHover({ isDisabled });
-  const subMenuList = submenuItems.map((item) => (
-    <li
-      key={item.key}
-      className={clsx(
-        styles["sapphire-menu-item"],
-        styles["js-focus"],
-        styles["js-hover"],
-        {
-          [styles["is-disabled"]]: isDisabled,
-          [styles["is-focus"]]: isFocusVisible,
-          [styles["is-hover"]]: isHovered,
-        }
-      )}
+
+  const CustomMenu = (
+    <StatelyMenu
+      UNSAFE_style={{ border: "none" }}
+      aria-label="submenu"
+      onAction={(key: Key) => {
+        handleAction(key);
+        setShowSubmenu(false);
+      }}
+      onClose={() => setShowSubmenu(false)}
     >
-      <StatelyMenu
-        aria-label="submenu"
-        key={item.key}
-        onAction={(key: Key) => {
-          handleAction(key);
-          setShowSubmenu(false);
-        }}
-        onClose={() => setShowSubmenu(false)}
-      >
-        <Item key={item.key} textValue={item.label}>
-          <p className={styles["sapphire-menu-item-overflow"]}>{item.label}</p>
-        </Item>
-      </StatelyMenu>
-    </li>
-  ));
+      {submenuItems.map((item) => {
+        return (
+          <Item key={item.key} textValue={item.label}>
+            <p>{item.label}</p>
+          </Item>
+        );
+      })}
+    </StatelyMenu>
+  );
 
   return (
     <div className={styles["sapphire-menu"]}>
@@ -79,9 +70,14 @@ const App = () => {
             position: "absolute",
             left: "210px",
             top: "112px",
+            padding: "0 12px",
+            width: "130px",
+            fontFamily: "Nunito, sans-serif",
+            fontSize: "16px",
+            fontStyle: "normal",
           }}
         >
-          {subMenuList}
+          {CustomMenu}
         </div>
       )}
     </div>
