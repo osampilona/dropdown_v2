@@ -33,6 +33,7 @@ const App = () => {
   const { hoverProps, isHovered } = useHover({ isDisabled });
   const subMenuList = submenuItems.map((item) => (
     <li
+      key={item.key}
       className={clsx(
         styles["sapphire-menu-item"],
         styles["js-focus"],
@@ -50,7 +51,7 @@ const App = () => {
         onAction={handleAction}
         onClose={() => setShowSubmenu(false)}
       >
-        <Item key={item.key}>
+        <Item key={item.key} textValue={item.label}>
           <p className={styles["sapphire-menu-item-overflow"]}>{item.label}</p>
         </Item>
       </StatelyMenu>
