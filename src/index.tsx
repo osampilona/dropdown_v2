@@ -21,7 +21,16 @@ const App = () => {
     if (actionKey === "move") {
       console.log("Move to is clicked");
       setShowSubmenu(true);
-      return subMenuList;
+      return (
+        <SubMenuList
+          submenuItems={[]}
+          isDisabled={false}
+          isFocusVisible={false}
+          onClose={function (): void {
+            throw new Error("Function not implemented.");
+          }}
+        />
+      );
     }
     setShowSubmenu(false); // Close the submenu when the action is not "move"
   };
@@ -33,32 +42,6 @@ const App = () => {
   ];
 
   const { hoverProps, isHovered } = useHover({ isDisabled });
-  const subMenuList = submenuItems.map((item) => (
-    <li
-      key={item.key}
-      className={clsx(
-        styles["sapphire-menu-item"],
-        styles["js-focus"],
-        styles["js-hover"],
-        {
-          [styles["is-disabled"]]: isDisabled,
-          [styles["is-focus"]]: isFocusVisible,
-          [styles["is-hover"]]: isHovered,
-        }
-      )}
-    >
-      <StatelyMenu
-        aria-label="submenu"
-        key={item.key}
-        onAction={handleAction}
-        onClose={() => setShowSubmenu(false)}
-      >
-        <Item key={item.key} textValue={item.label}>
-          <p className={styles["sapphire-menu-item-overflow"]}>{item.label}</p>
-        </Item>
-      </StatelyMenu>
-    </li>
-  ));
 
   return (
     <div className={styles["sapphire-menu"]}>
