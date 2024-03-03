@@ -6,20 +6,16 @@ import { Menu } from "./Menu";
 import "./styles.css";
 import clsx from "clsx";
 import styles from "./Menu/Menu.module.css";
-import { useHover } from "@react-aria/interactions";
-import { mergeProps } from "@react-aria/utils";
-import { useFocusRing } from "@react-aria/focus";
 
 const App = () => {
   const [showSubmenu, setShowSubmenu] = useState(false);
-  const [isDisabled, setIsDisabled] = useState(false);
-  const { isFocusVisible } = useFocusRing();
 
   const handleAction = (actionKey: any) => {
     if (actionKey === "move") {
       setShowSubmenu((prevShowSubmenu) => !prevShowSubmenu);
-    } else {
       console.log("Main menu item action:", actionKey);
+    } else {
+      console.log("Main menu item action not move is:", actionKey);
     }
   };
 
@@ -28,8 +24,6 @@ const App = () => {
     { key: "move-to-desktop", label: "Desktop" },
     { key: "move-to-favorite", label: "Favorite" },
   ];
-
-  const { hoverProps, isHovered } = useHover({ isDisabled });
 
   const CustomMenu = (
     <StatelyMenu

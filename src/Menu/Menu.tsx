@@ -23,9 +23,9 @@ import {
   Node,
 } from "@react-types/shared";
 import { TreeState } from "@react-stately/tree";
+import { useHover } from "@react-aria/interactions";
 import styles from "./Menu.module.css";
 import clsx from "clsx";
-import { useHover } from "@react-aria/interactions";
 
 export type SapphireMenuProps<T extends object> = AriaMenuProps<T> &
   MenuTriggerProps & {
