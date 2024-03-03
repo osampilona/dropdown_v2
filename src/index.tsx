@@ -6,15 +6,9 @@ import { Menu } from "./Menu";
 import "./styles.css";
 import clsx from "clsx";
 import styles from "./Menu/Menu.module.css";
-import { useHover } from "@react-aria/interactions";
-import { mergeProps } from "@react-aria/utils";
-import { useFocusRing } from "@react-aria/focus";
 
 const App = () => {
   const [showSubmenu, setShowSubmenu] = useState(false);
-  const [isDisabled, setIsDisabled] = useState(false);
-  const { isFocusVisible } = useFocusRing();
-  const { hoverProps, isHovered } = useHover({ isDisabled });
 
   const handleAction = (actionKey: any) => {
     if (actionKey === "move") {
