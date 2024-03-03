@@ -14,6 +14,7 @@ const App = () => {
   const [showSubmenu, setShowSubmenu] = useState(false);
   const [isDisabled, setIsDisabled] = useState(false);
   const { isFocusVisible } = useFocusRing();
+  const { hoverProps, isHovered } = useHover({ isDisabled });
 
   const handleAction = (actionKey: any) => {
     if (actionKey === "move") {
@@ -29,8 +30,6 @@ const App = () => {
     { key: "move-to-desktop", label: "Desktop" },
     { key: "move-to-favorite", label: "Favorite" },
   ];
-
-  const { hoverProps, isHovered } = useHover({ isDisabled });
 
   const CustomMenu = (
     <StatelyMenu
